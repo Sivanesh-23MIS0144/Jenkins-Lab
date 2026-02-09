@@ -1,15 +1,17 @@
 name: Hello-Jenkins
 
 on: 
-  workflow_dispatch: # This enables the "Run workflow" button
-  push:
+  workflow_dispatch:
+    inputs:
+      USERNAME:                      # Task 6.2: Add String parameter
+        description: 'Enter Username'
+        required: true
+        default: 'Sivanesh'
+        type: string
 
 jobs:
-  say-hello:
+  parameter-task:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        
-      - name: Verify Files
-        run: ls -R
+      - name: Print Parameter Value
+        run: echo "The username is ${{ github.event.inputs.USERNAME }}"
