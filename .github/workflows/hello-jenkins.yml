@@ -2,16 +2,30 @@ name: Hello-Jenkins
 
 on: 
   workflow_dispatch:
-    inputs:
-      USERNAME:                      # Task 6.2: Add String parameter
-        description: 'Enter Username'
-        required: true
-        default: 'Sivanesh'
-        type: string
 
 jobs:
-  parameter-task:
+  java-build-task:
     runs-on: ubuntu-latest
     steps:
-      - name: Print Parameter Value
-        run: echo "The username is ${{ github.event.inputs.USERNAME }}"
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Create Hello.java
+        run: |
+          echo 'public class Hello {
+              public static void main(String[] args) {
+                  System.out.println("Hello from GitHub Actions Java Build!");
+              }
+          }' > Hello.java
+
+      - name: Compile Java Program
+        run: javac Hello.java
+
+      - name: Run Java Program
+        run: java Hello
