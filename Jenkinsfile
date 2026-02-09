@@ -1,16 +1,44 @@
 pipeline {
     agent any
+
     stages {
-        stage('Remote Checkout') {
+        stage('Checkout') {
             steps {
-                echo 'Jenkins is reading this from GitHub!'
+                echo 'Pulling code from GitHub...'
+                // Jenkins automatically performs checkout when using 'Pipeline script from SCM'
             }
         }
-        stage('Lab Verification') {
+
+        stage('Build') {
             steps {
-                sh 'java -version'
-                echo 'Task 11 is running smoothly.'
+                echo 'Compiling the application...'
+                // Using the Java compilation command from Task 7
+                sh '''
+                    echo "public class Hello { public static void main(String[] args) { System.out.println(\\"Build Successful\\"); } }" > Hello.java
+                    javac Hello.java
+                '''
             }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running unit tests...'
+                // Verifying the build as practiced in Task 10
+                sh 'java Hello'
+            }
+        }
+    }
+
+    /* Task 12: Post-Build Actions */
+    post {
+        success {
+            echo 'Build Successful! Lab cycle complete.'
+        }
+        failure {
+            echo 'Build Failed! Please check the logs.'
+        }
+        always {
+            echo 'Cleaning up the workspace...'
         }
     }
 }
