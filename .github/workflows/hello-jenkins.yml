@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  java-build-task:
+  archive-task:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -16,16 +16,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Create Hello.java
-        run: |
-          echo 'public class Hello {
-              public static void main(String[] args) {
-                  System.out.println("Hello from GitHub Actions Java Build!");
-              }
-          }' > Hello.java
-
       - name: Compile Java Program
-        run: javac Hello.java
+        run: |
+          echo 'public class Hello { public static void main(String[] args) { System.out.println("Archiving..."); } }' > Hello.java
+          javac Hello.java
 
-      - name: Run Java Program
-        run: java Hello
+      - name: Archive Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-bytecode-file  # The name of the download package
+          path: Hello.class        # The specific file to save
