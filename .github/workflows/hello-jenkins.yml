@@ -7,5 +7,11 @@ jobs:
   say-hello:
     runs-on: ubuntu-latest
     steps:
-      - name: Print Message
-        run: echo "Hello Jenkins"
+      - name: Print Hello
+        run: echo "Hello Sivanesh!"
+        
+      - name: Create Lab File
+        run: echo "This is my Task 3 lab report" > lab_report.txt
+        
+      - name: List Workspace Files
+        run: ls -R
