@@ -1,0 +1,11 @@
+name: Hello-Jenkins  # Task 2.1: Project Name
+
+on: [workflow_dispatch] # Task 2.4: Allows you to "Build the job manually"
+
+jobs:
+  say-hello:
+    description: "This is my first GitHub Action for Task 2" # Task 2.2: Description
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Message
+        run: echo "Hello Jenkins" # Task 2.3: Execute shell command
